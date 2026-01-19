@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Detection History - Malaria Detection System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-history me-2 text-primary"></i> Detection History</h1>
+        <button class="btn btn-outline-danger" onclick="clearHistory()">
+            <i class="fas fa-trash-alt me-2"></i> Clear History
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Filename</th>
+                            <th>Result</th>
+                            <th>Confidence</th>
+                            <th>Model Used</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if history %}
+                            {% for entry in history %}
+                            <tr>
+                                <td>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ entry.filename }}</td>
+                                <td>
+                                    <span class="badge {% if entry.result == 'Parasitized' %}bg-danger{% else %}bg-success{% endif %}">
+                                        {{ entry.result }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 10px;">
+                                            <div class="progress-bar {% if entry.result == 'Parasitized' %}bg-danger{% else %}bg-success{% endif %}" 
+                                                 role="progressbar" style="width: {{ entry.confidence }}%;"></div>
+                                        </div>
+                                        <span>{{ entry.confidence }}%</span>
+                                    </div>
+                                </td>
+                                <td><small class="text-muted">{{ entry.model_type }}</small></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewDetails({{ entry.id }})">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">No detection history found. Start by analyzing an image!</p>
+                                    <a href="{{ url_for('detection') }}" class="btn btn-primary mt-2">Start Detection</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Detection Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <!-- Content loaded via JS -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function viewDetails(id) {
+    fetch(`/history/api/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            const modalBody = document.getElementById('modalBody');
+            const details = JSON.parse(data.data);
+            
+            modalBody.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h6>General Information</h6>
+                        <table class="table table-sm">
+                            <tr><th>ID</th><td>${data.id}</td></tr>
+                            <tr><th>Timestamp</th><td>${data.timestamp}</td></tr>
+                            <tr><th>Filename</th><td>${data.filename}</td></tr>
+                            <tr><th>Model Used</th><td>${data.model_type}</td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6>Result Analysis</h6>
+                        <div class="text-center p-3 border rounded">
+                            <h3 class="${data.result === 'Parasitized' ? 'text-danger' : 'text-success'}">${data.result}</h3>
+                            <div class="display-6">${data.confidence}% Confidence</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Full JSON Data</h6>
+                        <pre class="bg-light p-3 rounded"><code>${JSON.stringify(details, null, 2)}</code></pre>
+                    </div>
+                </div>
+            `;
+            new bootstrap.Modal(document.getElementById('detailsModal')).show();
+        });
+}
+
+function clearHistory() {
+    if (confirm('Are you sure you want to clear all detection history?')) {
+        fetch('/clear_history', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+    }
+}
+</script>
+{% endblock %}

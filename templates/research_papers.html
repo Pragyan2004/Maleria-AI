@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Research Papers - Malaria Detection{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- Header -->
+        <div class="card shadow mb-4">
+            <div class="card-body text-center py-4" style="background: linear-gradient(rgba(108,117,125,0.1), rgba(108,117,125,0.05));">
+                <h1 class="display-5 text-secondary mb-3">Malaria Research Papers</h1>
+                <p class="lead">Latest scientific research and publications on malaria detection, treatment, and prevention</p>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search research papers..." id="searchPapers">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="filterCategory">
+                            <option value="">All Categories</option>
+                            <option value="diagnosis">Diagnosis & Detection</option>
+                            <option value="treatment">Treatment & Drugs</option>
+                            <option value="prevention">Prevention & Control</option>
+                            <option value="ai">AI & Machine Learning</option>
+                            <option value="epidemiology">Epidemiology</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Research -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-star me-2"></i>Featured Research Papers</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-primary">
+                            <div class="card-body">
+                                <span class="badge bg-primary mb-2">AI/ML</span>
+                                <h5 class="card-title">Deep Learning for Malaria Cell Image Classification</h5>
+                                <p class="card-text text-muted">
+                                    <strong>Authors:</strong> Rajaraman et al. (2022)<br>
+                                    <strong>Journal:</strong> Scientific Reports<br>
+                                    <strong>Impact Factor:</strong> 4.6
+                                </p>
+                                <p class="card-text">Comparative analysis of CNN architectures for malaria parasite detection in thin blood smear images.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-success">Open Access</span>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-external-link-alt me-1"></i> Read
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border-danger">
+                            <div class="card-body">
+                                <span class="badge bg-danger mb-2">Treatment</span>
+                                <h5 class="card-title">Artemisinin Resistance in Southeast Asia</h5>
+                                <p class="card-text text-muted">
+                                    <strong>Authors:</strong> WHO Malaria Policy Advisory Committee (2023)<br>
+                                    <strong>Journal:</strong> The Lancet Infectious Diseases<br>
+                                    <strong>Impact Factor:</strong> 25.1
+                                </p>
+                                <p class="card-text">Surveillance and molecular markers of artemisinin resistance in Plasmodium falciparum.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-warning text-dark">Subscription</span>
+                                    <a href="#" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-external-link-alt me-1"></i> Abstract
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Categories -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0"><i class="fas fa-folder me-2"></i>Research by Category</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- AI & ML Research -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-robot text-primary me-2"></i>AI & Machine Learning</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">MobileNetV2 for Malaria Detection</h6>
+                                            <small class="text-muted">2023</small>
+                                        </div>
+                                        <p class="mb-1 small">Lightweight CNN for mobile deployment in resource-limited settings.</p>
+                                        <small class="text-muted">IEEE Access • Open Access</small>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Transfer Learning Comparison Study</h6>
+                                            <small class="text-muted">2022</small>
+                                        </div>
+                                        <p class="mb-1 small">Performance evaluation of ResNet, VGG, and Inception for malaria diagnosis.</p>
+                                        <small class="text-muted">Computers in Biology and Medicine</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diagnosis Research -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-microscope text-success me-2"></i>Diagnosis & Detection</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Field Evaluation of Rapid Tests</h6>
+                                            <small class="text-muted">2023</small>
+                                        </div>
+                                        <p class="mb-1 small">Comparative accuracy of commercially available malaria RDTs in Africa.</p>
+                                        <small class="text-muted">Malaria Journal • Open Access</small>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">PCR vs Microscopy Accuracy</h6>
+                                            <small class="text-muted">2022</small>
+                                        </div>
+                                        <p class="mb-1 small">Molecular diagnostic techniques for low-parasitemia malaria detection.</p>
+                                        <small class="text-muted">Clinical Infectious Diseases</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest Publications -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="fas fa-newspaper me-2"></i>Latest Publications (2023-2024)</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Journal</th>
+                                <th>Date</th>
+                                <th>Access</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Real-time AI diagnosis of malaria</strong><br>
+                                    <small class="text-muted">Mobile application development and validation</small>
+                                </td>
+                                <td>Nature Digital Medicine</td>
+                                <td>Jan 2024</td>
+                                <td><span class="badge bg-success">Open</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Cost-effectiveness of malaria AI tools</strong><br>
+                                    <small class="text-muted">Economic analysis in low-income settings</small>
+                                </td>
+                                <td>Health Economics Review</td>
+                                <td>Dec 2023</td>
+                                <td><span class="badge bg-warning text-dark">Sub</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Drug resistance surveillance using genomics</strong><br>
+                                    <small class="text-muted">Whole genome sequencing applications</small>
+                                </td>
+                                <td>Science Translational Medicine</td>
+                                <td>Nov 2023</td>
+                                <td><span class="badge bg-success">Open</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Vaccine efficacy in pediatric populations</strong><br>
+                                    <small class="text-muted">RTS,S/AS01 long-term follow-up</small>
+                                </td>
+                                <td>New England Journal of Medicine</td>
+                                <td>Oct 2023</td>
+                                <td><span class="badge bg-warning text-dark">Sub</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journals & Databases -->
+        <div class="card shadow">
+            <div class="card-header bg-warning">
+                <h3 class="mb-0"><i class="fas fa-database me-2"></i>Research Databases & Journals</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" class="card text-decoration-none h-100">
+                            <div class="card-body text-center">
+                                <i class="fab fa-neos fa-3x text-primary mb-3"></i>
+                                <h6>PubMed</h6>
+                                <p class="small text-muted">NIH database of biomedical literature</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="https://www.ncbi.nlm.nih.gov/pmc/" target="_blank" class="card text-decoration-none h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-lock-open fa-3x text-success mb-3"></i>
+                                <h6>PubMed Central</h6>
+                                <p class="small text-muted">Free full-text articles</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="https://www.malariajournal.com/" target="_blank" class="card text-decoration-none h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-book-medical fa-3x text-danger mb-3"></i>
+                                <h6>Malaria Journal</h6>
+                                <p class="small text-muted">Leading malaria research journal</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="https://www.who.int/publications/journals/en/" target="_blank" class="card text-decoration-none h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-globe fa-3x text-info mb-3"></i>
+                                <h6>WHO Bulletin</h6>
+                                <p class="small text-muted">Global health research</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

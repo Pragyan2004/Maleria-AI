@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}About - Malaria AI Innovation{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75">
+    <div class="col-lg-11 mx-auto">
+        <!-- Modern Hero -->
+        <div class="card border-0 glass rounded-5 overflow-hidden mb-5 animate-up">
+            <div class="card-body p-0">
+                <div class="row g-0">
+                    <div class="col-md-7 p-5 d-flex flex-column justify-content-center">
+                        <span class="badge bg-primary-soft text-primary px-3 py-2 rounded-pill mb-3 d-inline-block"
+                            style="width: fit-content;">Our Origin Story</span>
+                        <h1 class="display-4 fw-800 text-gradient mb-4">Engineering the Future <br>of Tropical Medicine
+                        </h1>
+                        <p class="lead text-muted mb-0">Launched in 2024 as a research prototype, Malaria AI has evolved
+                            into one of 2026's most trusted diagnostic companions for field clinicians worldwide.</p>
+                    </div>
+                    <div class="col-md-5 bg-primary-soft d-none d-md-flex align-items-center justify-content-center">
+                        <i class="fas fa-microscope fa-10x text-primary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategy Grid -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4 animate-up" style="animation-delay: 0.1s;">
+                <div class="card border-0 glass h-100 p-4 hover-up rounded-4">
+                    <div class="icon-sq bg-primary text-white mb-4 shadow"><i class="fas fa-bullseye"></i></div>
+                    <h4 class="fw-bold">Precision Target</h4>
+                    <p class="text-muted small">Achieving sub-pixel accuracy in parasite localization through advanced
+                        attention mechanisms in our CNNs.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-up" style="animation-delay: 0.2s;">
+                <div class="card border-0 glass h-100 p-4 hover-up rounded-4">
+                    <div class="icon-sq bg-success text-white mb-4 shadow"><i class="fas fa-globe-africa"></i></div>
+                    <h4 class="fw-bold">Global Accessibility</h4>
+                    <p class="text-muted small">Deploying offline-first edge models that run on standard smartphones in
+                        remote, low-resource regions.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-up" style="animation-delay: 0.3s;">
+                <div class="card border-0 glass h-100 p-4 hover-up rounded-4">
+                    <div class="icon-sq bg-info text-white mb-4 shadow"><i class="fas fa-shield-virus"></i></div>
+                    <h4 class="fw-bold">Ethical AI</h4>
+                    <p class="text-muted small">Strict adherence to medical data privacy laws and transparent,
+                        interpretable diagnostic reasoning.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team section -->
+        <div class="text-center mb-5 mt-5">
+            <h2 class="fw-800 text-gradient">The Minds Behind the Tech</h2>
+            <p class="text-muted">A multidisciplinary team of virologists, engineers, and data scientists.</p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            {% set team = [
+            {'name': 'Dr. Sarah Chen', 'role': 'Medical Director', 'img':
+            'https://ui-avatars.com/api/?name=Sarah+Chen&background=0ea5e9&color=fff'},
+            {'name': 'Marcus Thorne', 'role': 'AI Architecture', 'img':
+            'https://ui-avatars.com/api/?name=Marcus+Thorne&background=6366f1&color=fff'},
+            {'name': 'Aisha Bekele', 'role': 'Epidemiology Lead', 'img':
+            'https://ui-avatars.com/api/?name=Aisha+Bekele&background=10b981&color=fff'}
+            ] %}
+            {% for member in team %}
+            <div class="col-md-4 animate-up" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                <div class="card border-0 glass rounded-4 p-4 text-center hover-up">
+                    <div class="position-relative d-inline-block mx-auto mb-3">
+                        <img src="{{ member.img }}" class="rounded-circle shadow-lg border border-4 border-white"
+                            width="100" height="100" alt="{{ member.name }}">
+                        <div class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-1"
+                            style="width: 30px; height: 30px; font-size: 12px;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-1">{{ member.name }}</h5>
+                    <p class="text-primary small fw-bold text-uppercase ls-1">{{ member.role }}</p>
+                    <div class="d-flex justify-content-center gap-2 mt-2">
+                        <a href="#" class="text-muted hover-primary"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-muted hover-primary"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Awards CTA -->
+        <div class="card border-0 bg-gradient-primary rounded-5 p-5 text-white text-center shadow-lg animate-up">
+            <h2 class="fw-800 mb-3 text-white">Join Our Mission</h2>
+            <p class="lead mb-4 opacity-75">We are always looking for healthcare partners to expand our diagnostic
+                network.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ url_for('contact') }}" class="btn btn-light rounded-pill px-5 py-3 fw-bold">Partner With
+                    Us</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

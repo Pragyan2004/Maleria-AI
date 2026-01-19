@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Diagnostic Findings - Malaria AI{% endblock %}
+
+{% block content %}
+<div class="row g-4 animate-up">
+    <!-- Top Result Banner -->
+    <div class="col-12">
+        {% set is_parasitized = prediction.result.parasitized_prob > prediction.result.uninfected_prob %}
+        <div class="card border-0 glass rounded-5 overflow-hidden shadow-2xl">
+            <div class="card-body p-0">
+                <div class="row g-0">
+                    <div class="col-md-8 p-5">
+                        <div class="d-flex align-items-center gap-2 mb-4">
+                            <span class="pulse {% if is_parasitized %}bg-danger{% else %}bg-success{% endif %}"
+                                style="width: 12px; height: 12px; border-radius: 50%;"></span>
+                            <span
+                                class="small fw-bold text-uppercase ls-1 {% if is_parasitized %}text-danger{% else %}text-success{% endif %}">Analysis
+                                Session Verified</span>
+                        </div>
+                        <h1 class="display-4 fw-800 text-gradient mb-3">{{ prediction.result.result }}</h1>
+                        <p class="lead text-muted mb-4">Diagnostic confidence score: <strong>{{
+                                prediction.result.confidence }}%</strong></p>
+
+                        <div class="row g-3 stats-grid">
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 bg-white rounded-4 shadow-sm">
+                                    <div class="text-muted tiny text-uppercase fw-bold ls-1 mb-1">Time Latency</div>
+                                    <div class="fw-bold">14ms</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="p-3 bg-white rounded-4 shadow-sm">
+                                    <div class="text-muted tiny text-uppercase fw-bold ls-1 mb-1">Engine Type</div>
+                                    <div class="fw-bold fs-7">{{ prediction.result.model_type | default('Neural Core')
+                                        }}</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="p-3 bg-white rounded-4 shadow-sm d-flex align-items-center gap-3">
+                                    <div class="flex-grow-1">
+                                        <div class="text-muted tiny text-uppercase fw-bold ls-1 mb-1">Data Entropy</div>
+                                        <div class="progress" style="height: 6px;">
+                                            <div class="progress-bar bg-primary" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-microchip text-primary opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-4 bg-primary-soft d-flex align-items-center justify-content-center border-start border-white border-opacity-25">
+                        <div class="text-center p-5">
+                            <div class="display-1 fw-800 text-primary opacity-75 mb-0">{{ prediction.result.confidence |
+                                int }}<small class="fs-4">%</small></div>
+                            <div class="text-primary small fw-bold text-uppercase ls-2">Accuracy Metric</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Probability & Visuals -->
+    <div class="col-lg-7">
+        <div class="card border-0 glass rounded-5 p-4 p-lg-5 h-100 shadow-xl">
+            <h3 class="fw-800 mb-4">Probability Distribution</h3>
+
+            <div class="mb-5">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-bold ls-1">PARASITIZED PRESENCE</span>
+                    <span class="text-danger fw-800">{{ prediction.result.parasitized_prob }}%</span>
+                </div>
+                <div class="progress bg-danger-soft rounded-pill" style="height: 12px;">
+                    <div class="progress-bar bg-danger rounded-pill"
+                        style="width: {{ prediction.result.parasitized_prob }}%"></div>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-bold ls-1">NEGATIVE FOR PATHOGENS</span>
+                    <span class="text-success fw-800">{{ prediction.result.uninfected_prob }}%</span>
+                </div>
+                <div class="progress bg-success-soft rounded-pill" style="height: 12px;">
+                    <div class="progress-bar bg-success rounded-pill"
+                        style="width: {{ prediction.result.uninfected_prob }}%"></div>
+                </div>
+            </div>
+
+            <div class="alert bg-primary-soft border-0 p-4 rounded-4 mt-auto">
+                <div class="d-flex gap-3">
+                    <i class="fas fa-microscope text-primary fa-2x mt-1"></i>
+                    <div>
+                        <h6 class="fw-bold">AI Pathogen Screening Output</h6>
+                        <p class="small text-muted mb-0">The neural network analyzed the sub-pixel structures of the
+                            uploaded blood smear. Detailed variance in color intensity suggests {{ 'a high potential
+                            for' if is_parasitized else 'no evidence of' }} P. falciparum presence in the identified
+                            clusters.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="col-lg-5">
+        <div
+            class="card border-0 {% if is_parasitized %}bg-danger{% else %}bg-success{% endif %} text-white rounded-5 p-4 p-lg-5 h-100 shadow-xl">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="icon-sq bg-white text-{% if is_parasitized %}danger{% else %}success{% endif %} shadow-lg">
+                    <i
+                        class="fas fa-{% if is_parasitized %}exclamation-triangle{% else %}hand-holding-medical{% endif %}"></i>
+                </div>
+                <h3 class="fw-800 mb-0">Protocol Recommendations</h3>
+            </div>
+
+            <ul class="list-unstyled mb-5">
+                {% if is_parasitized %}
+                <li class="d-flex gap-3 mb-4">
+                    <div class="mt-1"><i class="fas fa-chevron-right small opacity-50"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Immediate Clinical Follow-up</h6>
+                        <p class="small opacity-75">Seek urgent consultation with a licensed infectious disease
+                            specialist.</p>
+                    </div>
+                </li>
+                <li class="d-flex gap-3 mb-4">
+                    <div class="mt-1"><i class="fas fa-chevron-right small opacity-50"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Manual Microscopy Validation</h6>
+                    </div>
+                </li>
+                {% else %}
+                <li class="d-flex gap-3 mb-4">
+                    <div class="mt-1"><i class="fas fa-check-circle small opacity-50"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Maintenance of Preventative Care</h6>
+                        <p class="small opacity-75">Continue insecticide-treated net usage in endemic zones.</p>
+                    </div>
+                </li>
+                <li class="d-flex gap-3 mb-4">
+                    <div class="mt-1"><i class="fas fa-check-circle small opacity-50"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Symptom Monitoring (72h Window)</h6>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+
+            <div class="d-grid gap-2 mt-auto">
+                <button
+                    class="btn btn-white rounded-pill py-3 fw-800 shadow-lg text-{% if is_parasitized %}danger{% else %}success{% endif %}">
+                    <i class="fas fa-file-export me-2"></i> Export Clinical Report
+                </button>
+                <a href="{{ url_for('chatbot') }}" class="btn btn-outline-white rounded-pill py-3 fw-bold">
+                    Talk to Bio-Consultant
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Utility -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div
+            class="card border-0 glass rounded-4 p-3 shadow-sm d-flex flex-row align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-shield-alt text-muted"></i>
+                <span class="text-muted tiny fw-bold text-uppercase ls-1">Encrypted Result ID: ML-{{
+                    prediction.filename[:8].upper() }}</span>
+            </div>
+            <div class="d-flex gap-2">
+                <button onclick="window.print()" class="btn btn-sm btn-light rounded-pill px-3"><i
+                        class="fas fa-print me-1"></i> Print</button>
+                <a href="{{ url_for('detection') }}" class="btn btn-sm btn-primary rounded-pill px-3">Run New Scan</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

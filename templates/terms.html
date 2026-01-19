@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Terms of Service - Malaria AI{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75 py-5 animate-up">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 glass shadow-2xl rounded-5 p-4 p-lg-5">
+            <h1 class="display-4 fw-800 text-gradient mb-4">Terms of Service</h1>
+            <p class="lead text-muted mb-5">Effective Date: January 19, 2026</p>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">1. Acceptance of Terms</h3>
+                <p>By accessing or using the Malaria AI Detection platform, you agree to be bound by these Terms of
+                    Service. If you do not agree, please do not use the application.</p>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">2. Description of Service</h3>
+                <p>Malaria AI provides an automated image analysis tool for detecting malaria parasites in blood smears
+                    using deep learning models. This is a research-oriented tool and does not constitute a certified
+                    medical device.</p>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">3. Use Obligations</h3>
+                <p>Users are responsible for the quality of images uploaded. You agree not to use the service for any
+                    illegal purposes or to upload content that violates privacy or intellectual property rights.</p>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">4. Limitation of Liability</h3>
+                <p>Malaria AI and its developers shall not be liable for any results produced by the AI models. The user
+                    acknowledges that AI detection can have false positives and false negatives. A professional medical
+                    consultation is always required for diagnosis.</p>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">5. Account Termination</h3>
+                <p>We reserve the right to suspend or terminate accounts that violate these terms or engage in misuse of
+                    the scanning services.</p>
+            </div>
+
+            <div class="mt-5 pt-4 border-top">
+                <a href="{{ url_for('index') }}" class="btn btn-primary rounded-pill px-5 py-3">I Agree to the Terms</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

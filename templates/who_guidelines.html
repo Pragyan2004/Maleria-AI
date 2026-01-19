@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}WHO Malaria Guidelines - 2026 Edition{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75 py-5 animate-up">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 glass shadow-2xl rounded-5 p-4 p-lg-5">
+            <!-- Header with Logos -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-4">
+                <div class="d-flex align-items-center gap-3 bg-white p-3 rounded-4 shadow-sm">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/WHO_logo.svg/1024px-WHO_logo.svg.png"
+                        alt="WHO Logo" height="60">
+                </div>
+                <div class="text-center flex-grow-1">
+                    <h1 class="display-4 fw-800 text-gradient mb-0">WHO Guidelines</h1>
+                    <p class="lead text-muted mb-0">Global Malaria Screening Protocols 2026</p>
+                </div>
+                <div class="d-flex gap-3">
+                    <div class="bg-white p-2 rounded-3 shadow-sm border border-light overflow-hidden d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
+                        <img src="{{ url_for('static', filename='images/ICRM_Logo.svg') }}" alt="ICMR Logo"
+                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="bg-white p-2 rounded-3 shadow-sm border border-light overflow-hidden d-flex align-items-center justify-content-center"
+                        style="width: 45px; height: 45px;">
+                        <img src="{{ url_for('static', filename='images/cdc_logo.svg') }}" alt="CDC Logo"
+                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-5">
+                <div class="col-md-7">
+                    <h3 class="fw-800 mb-4">Core Recommendation Framework</h3>
+                    <div class="d-flex flex-column gap-4">
+                        <div class="p-4 bg-primary-soft rounded-4 border-start border-primary border-5">
+                            <h5 class="fw-bold">1. Universal Parasite Screening</h5>
+                            <p class="small text-muted mb-0">WHO recommends that all suspected malaria cases should be
+                                confirmed by a parasite diagnostic test (microscopy or RDT) before treatment.</p>
+                        </div>
+                        <div class="p-4 bg-info-soft rounded-4 border-start border-info border-5">
+                            <h5 class="fw-bold">2. Artemisinin-based Combination Therapy (ACT)</h5>
+                            <p class="small text-muted mb-0">Uncomplicated P. falciparum malaria should be treated with
+                                an artemisinin-based combination therapy (ACT).</p>
+                        </div>
+                        <div class="p-4 bg-success-soft rounded-4 border-start border-success border-5">
+                            <h5 class="fw-bold">3. Vector Control Measures</h5>
+                            <p class="small text-muted mb-0">Emphasis on sleeping under insecticide-treated nets (ITNs)
+                                and indoor residual spraying (IRS).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card p-4 glass-light border-0 shadow-sm rounded-4">
+                        <h4 class="fw-800 mb-3 text-primary">Key Statistics</h4>
+                        <div class="d-flex flex-column gap-3">
+                            <div class="p-3 bg-white rounded-3 shadow-sm text-center">
+                                <div class="h3 fw-bold text-dark mb-0">249M</div>
+                                <div class="tiny text-muted text-uppercase">Annual Global Cases</div>
+                            </div>
+                            <div class="p-3 bg-white rounded-3 shadow-sm text-center">
+                                <div class="h3 fw-bold text-dark mb-0">608k</div>
+                                <div class="tiny text-muted text-uppercase">Global Deaths (2025 Est.)</div>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                        <div class="d-grid">
+                            <a href="https://www.who.int/teams/global-malaria-programme/guidelines-for-malaria"
+                                target="_blank" class="btn btn-outline-primary rounded-pill py-3">
+                                <i class="fas fa-external-link-alt me-2"></i> Official WHO Manual
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 p-4 border-top">
+                <p class="small text-center text-muted">This page is an informational summary synchronized with the 2026
+                    World Health Organization guidelines. For clinical decision-making, please refer to the official
+                    documentation or consult with a board-certified pathologist.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

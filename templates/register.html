@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Malaria AI{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75 align-items-center">
+    <div class="col-md-5 mx-auto">
+        <div class="card border-0 glass shadow-2xl rounded-5 p-4 p-lg-5 animate-up">
+            <div class="text-center mb-4">
+                <div class="bg-primary-soft p-3 rounded-circle d-inline-block mb-3">
+                    <i class="fas fa-user-plus fa-2x text-primary"></i>
+                </div>
+                <h2 class="fw-800">Create Account</h2>
+                <p class="text-muted">Join the global initiative for AI-driven malaria diagnosis.</p>
+            </div>
+
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i
+                                class="fas fa-user text-muted"></i></span>
+                        <input type="text" id="displayName" class="form-control border-start-0" placeholder="John Doe"
+                            required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i
+                                class="fas fa-envelope text-muted"></i></span>
+                        <input type="email" id="email" class="form-control border-start-0"
+                            placeholder="name@example.com" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0"><i
+                                class="fas fa-key text-muted"></i></span>
+                        <input type="password" id="password" class="form-control border-start-0"
+                            placeholder="Min. 8 characters" required minlength="8">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow mb-4">
+                    <i class="fas fa-user-check me-2"></i> Register Now
+                </button>
+            </form>
+
+            <div class="position-relative mb-4">
+                <hr>
+                <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">Or join
+                    with</span>
+            </div>
+
+            <div class="d-grid gap-3">
+                <button type="button" id="googleLogin"
+                    class="btn btn-outline-dark py-2 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"
+                        alt="Google">
+                    Continue with Google Account
+                </button>
+            </div>
+
+            <p class="text-center mt-4 mb-0 text-muted small">
+                Already have an account? <a href="{{ url_for('login') }}"
+                    class="fw-bold text-primary text-decoration-none">Log in</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- auth.js is handled globally in base.html -->
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy - Malaria AI{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75 py-5 animate-up">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 glass shadow-2xl rounded-5 p-4 p-lg-5">
+            <h1 class="display-4 fw-800 text-gradient mb-4">Privacy Policy</h1>
+            <p class="lead text-muted mb-5">Last updated: January 19, 2026</p>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">1. Information We Collect</h3>
+                <p>We collect information you provide directly to us when you create an account, upload images for
+                    analysis, or communicate with us. This may include:</p>
+                <ul>
+                    <li>Personal information (name, email address)</li>
+                    <li>Medical images (microscopic blood smears)</li>
+                    <li>Diagnostic results and history</li>
+                </ul>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">2. How We Use Your Information</h3>
+                <p>Your data is used to provide and improve our AI diagnostic services. Specifically:</p>
+                <ul>
+                    <li>To process and analyze your uploaded blood smear images.</li>
+                    <li>To maintain your diagnostic history for your personal record.</li>
+                    <li>To improve our machine learning models (anonymized data only).</li>
+                    <li>To send technical notices and security alerts.</li>
+                </ul>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">3. Data Security</h3>
+                <p>We implement industry-standard security measures to protect your personal and medical data. All image
+                    transmissions are encrypted, and we use secure Firebase authentication to manage user access.</p>
+            </div>
+
+            <div class="content-section mb-5">
+                <h3 class="fw-800 mb-3">4. Medical Disclaimer</h3>
+                <p>This application is an AI-powered tool intended for research and informational purposes. It is NOT a
+                    replacement for professional medical diagnosis. We do not share your individual medical results with
+                    third parties without your explicit consent.</p>
+            </div>
+
+            <div class="mt-5 pt-4 border-top">
+                <a href="{{ url_for('index') }}" class="btn btn-primary rounded-pill px-5 py-3">Accept and Go Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

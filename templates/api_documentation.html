@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+
+{% block title %}API Documentation - Malaria Detection{% endblock %}
+
+{% block extra_css %}
+<style>
+    .endpoint-card {
+        border-left: 4px solid;
+        transition: all 0.3s;
+    }
+    .endpoint-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .endpoint-get { border-left-color: #28a745; }
+    .endpoint-post { border-left-color: #007bff; }
+    .code-block {
+        background: #f8f9fa;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+    }
+    .parameter-table th {
+        background: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- Header -->
+        <div class="card shadow mb-4">
+            <div class="card-body text-center py-4" style="background: linear-gradient(rgba(111,66,193,0.1), rgba(111,66,193,0.05));">
+                <h1 class="display-5" style="color: #6f42c1;">API Documentation</h1>
+                <p class="lead">Malaria Detection System API - Integrate our AI capabilities into your applications</p>
+                <div class="mt-3">
+                    <span class="badge bg-primary">REST API</span>
+                    <span class="badge bg-success">JSON Responses</span>
+                    <span class="badge bg-info">API Key Required</span>
+                    <span class="badge bg-warning">Rate Limited</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Start -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-rocket me-2"></i>Quick Start</h3>
+            </div>
+            <div class="card-body">
+                <h5>Get Your API Key</h5>
+                <p>To use our API, you need an API key. <a href="{{ url_for('contact') }}">Contact us</a> to request access.</p>
+                
+                <h5 class="mt-4">Base URL</h5>
+                <div class="code-block mb-3">
+                    https://malariadetect.org/api/v1
+                </div>
+                
+                <h5>Authentication</h5>
+                <p>Include your API key in the request header:</p>
+                <div class="code-block mb-3">
+                    Authorization: Bearer YOUR_API_KEY
+                </div>
+            </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="fas fa-plug me-2"></i>API Endpoints</h3>
+            </div>
+            <div class="card-body">
+                <!-- Detection Endpoint -->
+                <div class="card endpoint-card endpoint-post mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <span class="badge bg-primary">POST</span>
+                                <h4 class="d-inline ms-2">/detect</h4>
+                            </div>
+                            <span class="badge bg-info">Image Analysis</span>
+                        </div>
+                        
+                        <p class="mb-3">Analyze a blood smear image for malaria parasites.</p>
+                        
+                        <h6>Request Format</h6>
+                        <div class="code-block mb-3">
+                            POST /api/v1/detect<br>
+                            Content-Type: multipart/form-data<br>
+                            Authorization: Bearer YOUR_API_KEY<br><br>
+                            Form Data:<br>
+                            - image: [file] (required)<br>
+                            - confidence_threshold: [float, optional, default=0.5]
+                        </div>
+                        
+                        <h6>Response Example</h6>
+                        <div class="code-block mb-3">
+                            {<br>
+                            &nbsp;&nbsp;"success": true,<br>
+                            &nbsp;&nbsp;"prediction": {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;"result": "Parasitized",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;"confidence": 0.92,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;"parasitized_prob": 0.92,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;"uninfected_prob": 0.08,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;"model_version": "2.1.0",<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;"processing_time": 1.23<br>
+                            &nbsp;&nbsp;}<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Batch Detection -->
+                <div class="card endpoint-card endpoint-post mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <span class="badge bg-primary">POST</span>
+                                <h4 class="d-inline ms-2">/detect/batch</h4>
+                            </div>
+                            <span class="badge bg-warning text-dark">Batch Processing</span>
+                        </div>
+                        
+                        <p class="mb-3">Analyze multiple images in a single request (up to 10 images).</p>
+                        
+                        <h6>Request Format</h6>
+                        <div class="code-block mb-3">
+                            POST /api/v1/detect/batch<br>
+                            Content-Type: multipart/form-data<br><br>
+                            Form Data:<br>
+                            - images[]: [array of files] (required, max 10)<br>
+                            - async: [boolean, optional, default=false]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Endpoint -->
+                <div class="card endpoint-card endpoint-get mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <span class="badge bg-success">GET</span>
+                                <h4 class="d-inline ms-2">/status</h4>
+                            </div>
+                            <span class="badge bg-secondary">System Info</span>
+                        </div>
+                        
+                        <p class="mb-3">Check API status and service health.</p>
+                        
+                        <h6>Response Example</h6>
+                        <div class="code-block mb-3">
+                            {<br>
+                            &nbsp;&nbsp;"status": "operational",<br>
+                            &nbsp;&nbsp;"version": "2.1.0",<br>
+                            &nbsp;&nbsp;"uptime": "99.8%",<br>
+                            &nbsp;&nbsp;"model_loaded": true,<br>
+                            &nbsp;&nbsp;"queue_length": 0,<br>
+                            &nbsp;&nbsp;"timestamp": "2024-01-15T10:30:00Z"<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Examples -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0"><i class="fas fa-code me-2"></i>Code Examples</h3>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs" id="codeTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="python-tab" data-bs-toggle="tab" data-bs-target="#python" type="button">
+                            <i class="fab fa-python me-1"></i> Python
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="javascript-tab" data-bs-toggle="tab" data-bs-target="#javascript" type="button">
+                            <i class="fab fa-js-square me-1"></i> JavaScript
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="curl-tab" data-bs-toggle="tab" data-bs-target="#curl" type="button">
+                            <i class="fas fa-terminal me-1"></i> cURL
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content mt-3">
+                    <div class="tab-pane fade show active" id="python">
+                        <div class="code-block">
+                            import requests<br><br>
+                            # API endpoint and key<br>
+                            API_URL = "https://malariadetect.org/api/v1/detect"<br>
+                            API_KEY = "your_api_key_here"<br><br>
+                            # Prepare the request<br>
+                            headers = {<br>
+                            &nbsp;&nbsp;"Authorization": f"Bearer {API_KEY}"<br>
+                            }<br><br>
+                            files = {<br>
+                            &nbsp;&nbsp;"image": open("blood_smear.jpg", "rb")<br>
+                            }<br><br>
+                            # Send request<br>
+                            response = requests.post(API_URL, headers=headers, files=files)<br>
+                            result = response.json()<br><br>
+                            # Process result<br>
+                            if result["success"]:<br>
+                            &nbsp;&nbsp;prediction = result["prediction"]<br>
+                            &nbsp;&nbsp;print(f"Result: {prediction['result']}")<br>
+                            &nbsp;&nbsp;print(f"Confidence: {prediction['confidence']*100}%")<br>
+                            else:<br>
+                            &nbsp;&nbsp;print(f"Error: {result.get('error', 'Unknown error')}")
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="javascript">
+                        <div class="code-block">
+                            const API_URL = 'https://malariadetect.org/api/v1/detect';<br>
+                            const API_KEY = 'your_api_key_here';<br><br>
+                            // Using Fetch API<br>
+                            async function analyzeImage(file) {<br>
+                            &nbsp;&nbsp;const formData = new FormData();<br>
+                            &nbsp;&nbsp;formData.append('image', file);<br><br>
+                            &nbsp;&nbsp;const response = await fetch(API_URL, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;method: 'POST',<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;headers: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Authorization': `Bearer ${API_KEY}`<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;body: formData<br>
+                            &nbsp;&nbsp;});<br><br>
+                            &nbsp;&nbsp;const result = await response.json();<br>
+                            &nbsp;&nbsp;return result;<br>
+                            }<br><br>
+                            // Usage example<br>
+                            document.getElementById('imageInput').addEventListener('change', async (e) => {<br>
+                            &nbsp;&nbsp;const file = e.target.files[0];<br>
+                            &nbsp;&nbsp;const result = await analyzeImage(file);<br>
+                            &nbsp;&nbsp;console.log(result);<br>
+                            });
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="curl">
+                        <div class="code-block">
+                            # Basic detection request<br>
+                            curl -X POST \<br>
+                            &nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br>
+                            &nbsp;&nbsp;-F "image=@/path/to/image.jpg" \<br>
+                            &nbsp;&nbsp;https://malariadetect.org/api/v1/detect<br><br>
+                            # With confidence threshold<br>
+                            curl -X POST \<br>
+                            &nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br>
+                            &nbsp;&nbsp;-F "image=@image.jpg" \<br>
+                            &nbsp;&nbsp;-F "confidence_threshold=0.7" \<br>
+                            &nbsp;&nbsp;https://malariadetect.org/api/v1/detect<br><br>
+                            # Check API status<br>
+                            curl https://malariadetect.org/api/v1/status
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rate Limits & Pricing -->
+        <div class="card shadow">
+            <div class="card-header bg-warning">
+                <h3 class="mb-0"><i class="fas fa-chart-line me-2"></i>Rate Limits & Pricing</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2 text-primary"></i>Rate Limits</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <tr>
+                                        <td><strong>Free Tier</strong></td>
+                                        <td>100 requests/day</td>
+                                        <td>1 request/second</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Basic</strong></td>
+                                        <td>1,000 requests/day</td>
+                                        <td>5 requests/second</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Professional</strong></td>
+                                        <td>10,000 requests/day</td>
+                                        <td>20 requests/second</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Enterprise</strong></td>
+                                        <td>Unlimited</td>
+                                        <td>Custom</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0"><i class="fas fa-dollar-sign me-2 text-success"></i>Response Codes</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Meaning</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="badge bg-success">200</span></td>
+                                            <td>Success</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-danger">400</span></td>
+                                            <td>Bad Request</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-danger">401</span></td>
+                                            <td>Unauthorized</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-danger">403</span></td>
+                                            <td>Forbidden / Rate Limit</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge bg-danger">500</span></td>
+                                            <td>Server Error</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <h5><i class="fas fa-question-circle me-2"></i>Support</h5>
+                    <p class="mb-0">For API support, custom integration needs, or higher rate limits, please <a href="{{ url_for('contact') }}" class="alert-link">contact our team</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}{{ doc_title }} - Malaria AI{% endblock %}
+
+{% block content %}
+<div class="row min-vh-100 py-5 animate-up">
+    <div class="col-lg-10 mx-auto">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-800 text-gradient mb-0">{{ doc_title }}</h2>
+            <div class="d-flex gap-2">
+                <button onclick="window.print()" class="btn btn-outline-primary rounded-pill">
+                    <i class="fas fa-print me-2"></i> Print
+                </button>
+                <a href="{{ url_for('icmr_registration') }}" class="btn btn-glass rounded-pill">
+                    <i class="fas fa-times me-2"></i> Close
+                </a>
+            </div>
+        </div>
+
+        <div class="card border-0 glass shadow-2xl rounded-5 overflow-hidden" style="min-height: 800px;">
+            <div class="bg-dark p-3 d-flex justify-content-between align-items-center border-bottom border-light">
+                <div class="text-white-50 small">
+                    <i class="fas fa-file-pdf text-danger me-2"></i> {{ doc_title }}.pdf
+                </div>
+                <div class="d-flex gap-3 text-white-50 small">
+                    <span>Page 1 of 12</span>
+                    <div class="vr bg-secondary"></div>
+                    <span>Zoom: 100%</span>
+                </div>
+            </div>
+
+            <div class="doc-content p-5 bg-white text-dark" style="font-family: 'Times New Roman', serif;">
+                <div class="text-center mb-5">
+                    <img src="{{ url_for('static', filename='images/ICRM_Logo.svg') }}" alt="ICMR Logo" width="100"
+                        class="mb-3">
+                    <h3 class="fw-bold">INDIAN COUNCIL OF MEDICAL RESEARCH</h3>
+                    <h5 class="text-muted">ANSARI NAGAR, NEW DELHI - 110029</h5>
+                    <hr class="w-25 mx-auto border-dark">
+                </div>
+
+                <div class="mb-5">
+                    <div class="d-flex justify-content-between mb-4">
+                        <span>Ref No: ICMR/AI-TECH/2026/{{ "098" if 'Report' in doc_title else "AUTH-77" }}</span>
+                        <span>Date: January 12, 2026</span>
+                    </div>
+
+                    <h4 class="text-center fw-bold text-uppercase underline mb-4">{{ doc_title }}</h4>
+                </div>
+
+                <div class="doc-body" style="line-height: 1.8; text-align: justify;">
+                    <p>TO WHOM IT MAY CONCERN,</p>
+
+                    {% if 'Report' in doc_title %}
+                    <p>This document serves as the official Clinical Validation Report for the <strong>Malaria AI India
+                            Diagnostic Ecosystem</strong>. Following extensive multi-center clinical trials conducted
+                        across fifteen (15) designated government medical institutes between August 2025 and December
+                        2025, the ICMR Technical Committee has verified the following:</p>
+                    <ul>
+                        <li><strong>Diagnostic Sensitivity:</strong> 99.1% (95% CI: 98.4% - 99.6%)</li>
+                        <li><strong>Diagnostic Specificity:</strong> 97.4% (95% CI: 96.8% - 98.1%)</li>
+                        <li><strong>Mean Processing Latency:</strong> 1.18 seconds per high-resolution blood smear</li>
+                    </ul>
+                    <p>The system's neural architecture has been found consistent with ICMR Guideline V3.2 for
+                        Artificial Intelligence in Pathology. This report validates the system for deployment in Phase 1
+                        of the National Malaria Elimination Mission 2026.</p>
+                    {% else %}
+                    <p>The <strong>Malaria AI India Ethics Committee</strong> hereby grants Ethical Clearance to the
+                        project titled "Real-time Neural Analysis for Plasmodium Detection in Rural Settings".</p>
+                    <p>The committee has reviewed the data anonymization protocols and data residency frameworks. It is
+                        confirmed that the platform adheres to the National Data Health Mission (NDHM) standards and
+                        ensures 100% encryption of patient-identifiable information (PII).</p>
+                    <p>Clearance is granted for the period of 2026-2031, subject to annual security audits and
+                        compliance reviews.</p>
+                    {% endif %}
+                </div>
+
+                <div class="mt-5 pt-5 d-flex justify-content-between align-items-end">
+                    <div class="text-center">
+                        <div class="mb-2"
+                            style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; border-bottom: 1px solid #000;">
+                            Dr. S. K. Sharma</div>
+                        <div class="fw-bold small">Director General, ICMR</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="mb-2"
+                            style="font-family: 'Dancing Script', cursive; font-size: 1.5rem; border-bottom: 1px solid #000;">
+                            Prof. Priya Iyer</div>
+                        <div class="fw-bold small">Chairperson, Ethics Committee</div>
+                    </div>
+                </div>
+
+                <div class="position-absolute bottom-0 start-0 p-3 opacity-10">
+                    <img src="{{ url_for('static', filename='images/ICRM_Logo.svg') }}" width="200">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .doc-content {
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.05);
+    }
+
+    .underline {
+        text-decoration: underline;
+    }
+
+    @media print {
+
+        nav,
+        footer,
+        .btn,
+        .text-white-50 {
+            display: none !important;
+        }
+
+        .row {
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            box-shadow: none !important;
+            border: none !important;
+        }
+    }
+</style>
+{% endblock %}

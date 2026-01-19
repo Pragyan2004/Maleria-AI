@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Malaria Prevention & Tips{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-shield-alt me-2"></i> Malaria Prevention & Safety Tips
+                </h3>
+            </div>
+            <div class="card-body">
+                <!-- Introduction -->
+                <div class="alert alert-info mb-4">
+                    <h5><i class="fas fa-info-circle me-2"></i> Important Note</h5>
+                    <p class="mb-0">These prevention tips are for informational purposes. Always consult with healthcare professionals for personalized medical advice.</p>
+                </div>
+
+                <!-- Prevention Methods -->
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <h4 class="mb-4 text-success">Prevention Methods</h4>
+                        <div class="prevention-methods">
+                            <div class="method-card mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="method-icon bg-success text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-bed fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Mosquito Nets</h5>
+                                        <p class="mb-0">Use insecticide-treated mosquito nets (ITNs) while sleeping. Nets should be properly tucked under mattresses.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="method-card mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="method-icon bg-success text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-spray-can fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Indoor Spraying</h5>
+                                        <p class="mb-0">Use indoor residual spraying (IRS) with insecticides approved by WHO for malaria control.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="method-card mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="method-icon bg-success text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-tshirt fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Protective Clothing</h5>
+                                        <p class="mb-0">Wear long-sleeved shirts, long pants, and socks in malaria-prone areas, especially during dusk and dawn.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h4 class="mb-4 text-success">Personal Protection</h4>
+                        <div class="protection-methods">
+                            <div class="method-card mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="method-icon bg-success text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-prescription-bottle fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Insect Repellents</h5>
+                                        <p class="mb-0">Apply EPA-registered insect repellents containing DEET, picaridin, IR3535, or oil of lemon eucalyptus.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="method-card mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="method-icon bg-success text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-pills fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Antimalarial Drugs</h5>
+                                        <p class="mb-0">Take prescribed antimalarial medication before, during, and after travel to high-risk areas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="method-card mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="method-icon bg-success text-white rounded-circle p-3 me-3">
+                                        <i class="fas fa-home fa-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Environmental Control</h5>
+                                        <p class="mb-0">Eliminate standing water, use window screens, and maintain clean surroundings to reduce mosquito breeding.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Travel Tips -->
+                <div class="card mb-4">
+                    <div class="card-header bg-warning">
+                        <h4 class="mb-0 text-white">
+                            <i class="fas fa-plane me-2"></i> Travel Safety Tips
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-calendar-check fa-2x text-warning mb-3"></i>
+                                        <h5>Pre-Travel Planning</h5>
+                                        <ul class="text-start small">
+                                            <li>Consult doctor 4-6 weeks before travel</li>
+                                            <li>Get recommended vaccinations</li>
+                                            <li>Research malaria risk in destination</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-suitcase fa-2x text-warning mb-3"></i>
+                                        <h5>During Travel</h5>
+                                        <ul class="text-start small">
+                                            <li>Take antimalarials as prescribed</li>
+                                            <li>Use mosquito nets in accommodations</li>
+                                            <li>Avoid outdoor activities at dusk/dawn</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-notes-medical fa-2x text-warning mb-3"></i>
+                                        <h5>Post-Travel</h5>
+                                        <ul class="text-start small">
+                                            <li>Continue medication as directed</li>
+                                            <li>Monitor for symptoms for 1 year</li>
+                                            <li>Seek medical care if symptoms appear</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Symptoms Awareness -->
+                <div class="card mb-4">
+                    <div class="card-header bg-danger">
+                        <h4 class="mb-0 text-white">
+                            <i class="fas fa-exclamation-triangle me-2"></i> Know the Symptoms
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="text-danger">Common Symptoms</h5>
+                                <ul class="list-group mb-3">
+                                    <li class="list-group-item"><i class="fas fa-thermometer-half me-2 text-danger"></i> Fever and chills</li>
+                                    <li class="list-group-item"><i class="fas fa-head-side-virus me-2 text-danger"></i> Headache</li>
+                                    <li class="list-group-item"><i class="fas fa-running me-2 text-danger"></i> Fatigue and body aches</li>
+                                    <li class="list-group-item"><i class="fas fa-stomach me-2 text-danger"></i> Nausea and vomiting</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-danger">Severe Symptoms (Emergency)</h5>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><i class="fas fa-brain me-2 text-danger"></i> Confusion or seizures</li>
+                                    <li class="list-group-item"><i class="fas fa-lungs me-2 text-danger"></i> Difficulty breathing</li>
+                                    <li class="list-group-item"><i class="fas fa-tint me-2 text-danger"></i> Dark or bloody urine</li>
+                                    <li class="list-group-item"><i class="fas fa-exclamation me-2 text-danger"></i> Persistent vomiting</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger mt-3">
+                            <strong><i class="fas fa-phone-alt me-2"></i> Emergency:</strong> Seek immediate medical attention if severe symptoms appear. Malaria can be fatal if not treated promptly.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- High-Risk Areas -->
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h4 class="mb-0 text-white">
+                            <i class="fas fa-globe-americas me-2"></i> High-Risk Areas
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card h-100 border-info">
+                                    <div class="card-body text-center">
+                                        <h5 class="text-info">Africa</h5>
+                                        <p class="small">Sub-Saharan Africa accounts for approximately 94% of malaria cases and deaths worldwide.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 border-info">
+                                    <div class="card-body text-center">
+                                        <h5 class="text-info">South Asia</h5>
+                                        <p class="small">India, Bangladesh, and other South Asian countries have significant malaria transmission.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100 border-info">
+                                    <div class="card-body text-center">
+                                        <h5 class="text-info">Latin America</h5>
+                                        <p class="small">Parts of Central and South America, especially Amazon basin regions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <p class="mb-2"><strong>Check before you travel:</strong> Visit <a href="https://www.cdc.gov/malaria/travelers/country_table/a.html" target="_blank" class="text-decoration-none">CDC Malaria Information by Country</a> for updated travel advisories.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Resources -->
+                <div class="mt-5">
+                    <h4 class="mb-3">Additional Resources</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="https://www.who.int/teams/global-malaria-programme" target="_blank" class="card text-decoration-none text-dark h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-university fa-2x text-primary mb-3"></i>
+                                    <h6>WHO Malaria Program</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="https://www.cdc.gov/malaria" target="_blank" class="card text-decoration-none text-dark h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-shield-virus fa-2x text-primary mb-3"></i>
+                                    <h6>CDC Malaria Resources</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="https://www.malarianomore.org" target="_blank" class="card text-decoration-none text-dark h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-hands-helping fa-2x text-primary mb-3"></i>
+                                    <h6>Malaria No More</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ url_for('chatbot') }}" class="card text-decoration-none text-dark h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-robot fa-2x text-primary mb-3"></i>
+                                    <h6>Ask Our AI Assistant</h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

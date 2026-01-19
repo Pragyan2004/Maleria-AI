@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile - Malaria AI{% endblock %}
+
+{% block content %}
+<div class="row min-vh-75 py-5">
+    <div class="col-lg-4">
+        <!-- Sidebar Profile Card -->
+        <div class="card border-0 glass shadow-2xl rounded-5 p-4 text-center animate-up h-100">
+            <div class="position-relative d-inline-block mx-auto mb-4">
+                <img src="" id="profilePicLarge" alt="Profile"
+                    class="rounded-circle border border-5 border-white shadow-xl" width="150" height="150"
+                    style="object-fit: cover;">
+                <label for="changePhoto"
+                    class="position-absolute bottom-0 end-0 bg-primary text-white p-2 rounded-circle cursor-pointer shadow-lg"
+                    style="width: 40px; height: 40px;">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="changePhoto" class="d-none">
+            </div>
+
+            <h3 class="fw-800 mb-1" id="profileName">Loading...</h3>
+            <p class="text-primary small fw-bold text-uppercase ls-1 mb-4" id="profileRole">Medical Researcher</p>
+
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <div class="text-center px-3 border-end">
+                    <div class="h5 fw-800 mb-0" id="scanCount">0</div>
+                    <div class="tiny text-muted text-uppercase">Scans</div>
+                </div>
+                <div class="text-center px-3">
+                    <div class="h5 fw-800 mb-0">98%</div>
+                    <div class="tiny text-muted text-uppercase">Accuracy</div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary rounded-pill py-3 fw-bold shadow">
+                    <i class="fas fa-edit me-2"></i> Edit Account
+                </button>
+                <button class="btn btn-glass rounded-pill py-3 fw-bold text-danger" id="logoutBtnAlt">
+                    <i class="fas fa-sign-out-alt me-2"></i> Log Out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <!-- Main Profile Info -->
+        <div class="card border-0 glass shadow-2xl rounded-5 p-4 p-lg-5 animate-up">
+            <h3 class="fw-800 mb-4">Account Information</h3>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Full Name</label>
+                    <div class="p-3 bg-white rounded-4 border border-light shadow-sm d-flex align-items-center gap-3">
+                        <i class="fas fa-user text-primary opacity-50"></i>
+                        <span id="profileNameDetail" class="fw-bold">...</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Email Address</label>
+                    <div class="p-3 bg-white rounded-4 border border-light shadow-sm d-flex align-items-center gap-3">
+                        <i class="fas fa-envelope text-primary opacity-50"></i>
+                        <span id="profileEmailDetail" class="fw-bold">...</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Account Provider</label>
+                    <div class="p-3 bg-white rounded-4 border border-light shadow-sm d-flex align-items-center gap-3">
+                        <i class="fas fa-shield-alt text-primary opacity-50"></i>
+                        <span id="profileProvider" class="fw-bold">Firebase</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Join Date</label>
+                    <div class="p-3 bg-white rounded-4 border border-light shadow-sm d-flex align-items-center gap-3">
+                        <i class="fas fa-calendar-check text-primary opacity-50"></i>
+                        <span id="profileJoinDate" class="fw-bold">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-5 opacity-10">
+
+            <h3 class="fw-800 mb-4">Security Settings</h3>
+            <div class="d-flex flex-column gap-3">
+                <div
+                    class="d-flex align-items-center justify-content-between p-3 bg-white rounded-4 border border-light shadow-sm">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-primary-soft p-2 rounded-3 text-primary"><i class="fas fa-key"></i></div>
+                        <div>
+                            <div class="fw-bold fs-7">Password Authentication</div>
+                            <div class="tiny text-muted">Change your current password</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary px-3 rounded-pill">Update</button>
+                </div>
+
+                <div
+                    class="d-flex align-items-center justify-content-between p-3 bg-white rounded-4 border border-light shadow-sm">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-success-soft p-2 rounded-3 text-success"><i class="fas fa-fingerprint"></i></div>
+                        <div>
+                            <div class="fw-bold fs-7">Two-Factor Auth</div>
+                            <div class="tiny text-muted">Secure your account with 2FA</div>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="module">
+    import { auth } from "{{ url_for('static', filename='js/firebase-config.js') }}";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById('profileName').textContent = user.displayName || 'Health Researcher';
+            document.getElementById('profileNameDetail').textContent = user.displayName || 'Not Provided';
+            document.getElementById('profileEmailDetail').textContent = user.email;
+            document.getElementById('profilePicLarge').src = user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0ea5e9&color=fff&size=150`;
+            document.getElementById('profileJoinDate').textContent = new Date(user.metadata.creationTime).toLocaleDateString();
+            document.getElementById('profileProvider').textContent = user.providerData[0]?.providerId || 'password';
+        } else {
+            window.location.href = '/login';
+        }
+    });
+
+    const logoutBtnAlt = document.getElementById('logoutBtnAlt');
+    if (logoutBtnAlt) {
+        logoutBtnAlt.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = '/login';
+            });
+        });
+    }
+</script>
+{% endblock %}

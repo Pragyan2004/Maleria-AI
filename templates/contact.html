@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - Global Diagnostic Network{% endblock %}
+
+{% block content %}
+<div class="row g-4 animate-up">
+    <!-- Contact Info Cards -->
+    <div class="col-lg-4">
+        <div class="card border-0 glass rounded-5 p-4 mb-4">
+            <h2 class="fw-800 text-gradient mb-4">Get in Touch</h2>
+            <p class="text-muted small mb-4">Our global medical response team is available 24/7 for technical support
+                and diagnostic consultation.</p>
+
+            <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-white rounded-4 shadow-sm">
+                <div class="icon-sq bg-primary-soft text-primary"><i class="fas fa-map-marker-alt"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-0">HQ Location</h6>
+                    <p class="text-muted small mb-0">San Francisco, CA 94107</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-white rounded-4 shadow-sm">
+                <div class="icon-sq bg-success-soft text-success"><i class="fas fa-phone-alt"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-0">Emergency Support</h6>
+                    <p class="text-muted small mb-0">+1 (555) 911-2026</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-white rounded-4 shadow-sm">
+                <div class="icon-sq bg-info-soft text-info"><i class="fas fa-envelope-open-text"></i></div>
+                <div>
+                    <h6 class="fw-bold mb-0">Clinical Queries</h6>
+                    <p class="text-muted small mb-0">care@malaria.ai</p>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h6 class="fw-bold mb-3 ls-1 text-uppercase small">Follow Global Health</h6>
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-light rounded-circle shadow-sm"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="btn btn-light rounded-circle shadow-sm"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="btn btn-light rounded-circle shadow-sm"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+
+        <div class="card border-0 glass-light rounded-5 p-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="pulse bg-success" style="width: 10px; height: 10px; border-radius: 50%;"></div>
+                <span class="small fw-bold text-success ls-1 uppercase">System Status: Optimal</span>
+            </div>
+            <p class="text-muted tiny mb-0">AI Core V3.1 is currently processing 452 concurrent global scans. Average
+                latency: 12ms.</p>
+        </div>
+    </div>
+
+    <!-- Message Form -->
+    <div class="col-lg-8">
+        <div class="card border-0 glass rounded-5 p-4 p-lg-5">
+            <div class="mb-4">
+                <h3 class="fw-800">Direct Message</h3>
+                <p class="text-muted">Use the encrypted channel below for secure coordination.</p>
+            </div>
+
+            <form id="contactForm">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-uppercase ls-1">Full Name</label>
+                        <input type="text" class="form-control rounded-pill px-4 py-3" placeholder="Identify yourself"
+                            required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-uppercase ls-1">Email Connection</label>
+                        <input type="email" class="form-control rounded-pill px-4 py-3" placeholder="secure@email.com"
+                            required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Investigation Type</label>
+                    <select class="form-select rounded-pill px-4 py-3">
+                        <option selected disabled>Select Priority Category</option>
+                        <option>Diagnostic Partnership</option>
+                        <option>Clinical Research Data</option>
+                        <option>Technical API Support</option>
+                        <option>Media Inquiry</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-uppercase ls-1">Encrypted Message Body</label>
+                    <textarea class="form-control rounded-4 px-4 py-3" rows="6"
+                        placeholder="Describe the diagnostic collaboration or technical query..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary rounded-pill py-3 fw-bold shadow-lg">
+                        <i class="fas fa-paper-plane me-2"></i> Transmit Data
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
