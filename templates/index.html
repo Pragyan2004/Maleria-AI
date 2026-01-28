@@ -1,191 +1,126 @@
 {% extends "base.html" %}
 
-{% block title %}Next-Gen Malaria Analysis - Home{% endblock %}
+{% block title %}Welcome{% endblock %}
 
 {% block content %}
-<!-- Immersive Hero Section -->
-<section class="hero-section text-center py-5 mb-5"
-    style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('/static/images/hero.png'); background-size: cover; background-position: center; min-height: 80vh; display: flex; align-items: center;">
-    <div class="container animate-up">
-        <span class="badge bg-primary px-3 py-2 rounded-pill mb-4 glass-light">V3.0 AI System Live</span>
-        <h1 class="display-2 text-white mb-4 fw-800">Transforming Malaria <br><span class="text-gradient">Diagnosis with
-                AI</span></h1>
-        <p class="lead text-white-50 mb-5 mx-auto w-75">Harness the power of 2026's most accurate neural networks for
-            instant, microscopic blood cell analysis and medical insights.</p>
-        <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="{{ url_for('detection') }}" class="btn btn-primary btn-lg px-5 py-3 shadow-lg">
-                <i class="fas fa-microscope me-2"></i> Start Diagnostic Analysis
-            </a>
-            <a href="{{ url_for('chatbot') }}" class="btn btn-glass btn-lg px-5 py-3">
-                <i class="fas fa-robot me-2"></i> Consult AI Assistant
-            </a>
-        </div>
-    </div>
-</section>
+<div class="max-w-7xl mx-auto">
+    <!-- Hero Section -->
+    <div class="hero-section relative overflow-hidden rounded-3xl mb-16 h-[500px] flex items-center justify-center text-center px-4"
+        style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid var(--border-color); backdrop-filter: blur(20px);">
 
-<!-- Precision Metrics -->
-<section class="stats-section py-5 mb-5">
-    <div class="container">
-        <div class="row g-4 text-center">
-            <div class="col-6 col-md-3">
-                <div class="p-4 glass rounded-4 h-100">
-                    <h2 class="display-5 fw-bold text-primary mb-0">98.4%</h2>
-                    <p class="text-muted small text-uppercase fw-bold ls-1">Avg Accuracy</p>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="p-4 glass rounded-4 h-100">
-                    <h2 class="display-5 fw-bold text-primary mb-0">1.2s</h2>
-                    <p class="text-muted small text-uppercase fw-bold ls-1">Latency</p>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="p-4 glass rounded-4 h-100">
-                    <h2 class="display-5 fw-bold text-primary mb-0">50k+</h2>
-                    <p class="text-muted small text-uppercase fw-bold ls-1">Scan Capacity</p>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="p-4 glass rounded-4 h-100">
-                    <h2 class="display-5 fw-bold text-primary mb-0">RAG</h2>
-                    <p class="text-muted small text-uppercase fw-bold ls-1">Chat Basis</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Core Features -->
-<section class="py-5 mb-5">
-    <div class="container">
-        <div class="text-center mb-5 animate-up">
-            <h2 class="section-title">Built for Precision</h2>
-            <p class="text-muted">Developed at the intersection of medical science and advanced engineering.</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4 animate-up" style="animation-delay: 0.1s;">
-                <div class="card p-4 h-100 text-center border-0 glass hover-up">
-                    <div class="feature-icon-wrapper mb-4 bg-primary-soft">
-                        <i class="fas fa-dna fa-2x text-primary"></i>
-                    </div>
-                    <h4>Neural Pathogen Logic</h4>
-                    <p class="text-muted">Our CNN models detect Plasmodium parasites with better-than-human consistency.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-4 animate-up" style="animation-delay: 0.2s;">
-                <div class="card p-4 h-100 text-center border-0 glass hover-up">
-                    <div class="feature-icon-wrapper mb-4 bg-info-soft">
-                        <i class="fas fa-database fa-2x text-info"></i>
-                    </div>
-                    <h4>Global Knowledge RAG</h4>
-                    <p class="text-muted">Chat with an assistant backed by real-time WHO and CDC malaria prevention
-                        guidelines.</p>
-                </div>
-            </div>
-            <div class="col-md-4 animate-up" style="animation-delay: 0.3s;">
-                <div class="card p-4 h-100 text-center border-0 glass hover-up">
-                    <div class="feature-icon-wrapper mb-4 bg-success-soft">
-                        <i class="fas fa-history fa-2x text-success"></i>
-                    </div>
-                    <h4>Secure Analysis Logs</h4>
-                    <p class="text-muted">Encrypted history storage allows clinicians to track and review detection
-                        trends over time.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Advanced Intelligence Section -->
-<section class="py-5 bg-glass mb-5 rounded-5 mx-lg-5 overflow-hidden">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-md-6 order-2 order-md-1 animate-up">
-                <img src="{{ url_for('static', filename='images/analysis.png') }}" alt="AI Analysis"
-                    class="img-fluid rounded-4 shadow-2xl border-glass">
-            </div>
-            <div class="col-md-6 order-1 order-md-2 animate-up">
-                <span class="text-primary fw-bold text-uppercase ls-2 mb-3 d-block">Integrated Ecosystem</span>
-                <h2 class="display-4 fw-800 mb-4">A Clinical Companion <br>Everywhere You Go</h2>
-                <div class="d-flex mb-4 gap-3 align-items-start">
-                    <div class="icon-sq bg-primary text-white"><i class="fas fa-camera"></i></div>
-                    <div>
-                        <h5>Real-time Optical Sync</h5>
-                        <p class="text-muted">Direct hardware access for microscopic camerawork or high-res photo
-                            uploads.</p>
-                    </div>
-                </div>
-                <div class="d-flex mb-4 gap-3 align-items-start">
-                    <div class="icon-sq bg-accent text-white"><i class="fas fa-file-medical"></i></div>
-                    <div>
-                        <h5>Diagnostic Reporting</h5>
-                        <p class="text-muted">Automated generation of pathology reports for immediate doctor review.</p>
-                    </div>
-                </div>
-                <a href="{{ url_for('about') }}" class="btn btn-outline-primary px-4 py-2 mt-2">Explore Methodology</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-5 text-center mb-5 animate-up">
-    <div class="container py-5 glass rounded-5 position-relative overflow-hidden"
-        style="background: linear-gradient(145deg, #051923, #001219); border: 2px solid #00f2ff !important; box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);">
-
-        <!-- Animated Matrix Background -->
-        <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10"
-            style="background-image: radial-gradient(#00f2ff 0.5px, transparent 0.5px); background-size: 20px 20px;">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+                style="animation-delay: 1s"></div>
         </div>
 
-        <div class="position-relative z-1 py-4">
-            <div class="mb-5 d-flex justify-content-center align-items-center gap-4">
-                <div class="text-center">
-                    <img src="{{ url_for('static', filename='images/ICRM_Logo.svg') }}" alt="ICMR Logo" width="85"
-                        class="brightness-0 invert-cyan opacity-100 mb-2" style="filter: drop-shadow(0 0 5px #00f2ff);">
-                    <div class="tiny fw-800 text-info text-uppercase ls-1">ICMR Protocol</div>
-                </div>
-                <div class="vr bg-info opacity-50" style="height: 70px;"></div>
-                <div class="text-center">
-                    <img src="{{ url_for('static', filename='images/cdc_logo.svg') }}" alt="CDC Logo" width="85"
-                        class="brightness-0 invert-cyan opacity-100 mb-2" style="filter: drop-shadow(0 0 5px #00f2ff);">
-                    <div class="tiny fw-800 text-info text-uppercase ls-1">CDC Verified</div>
-                </div>
+        <div class="relative z-10 max-w-3xl">
+            <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider mb-6 animate-fadeInUp"
+                style="background: rgba(99, 102, 241, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color);">
+                NEXT-GEN DATA ANALYTICS
             </div>
-
-            <h2 class="display-4 fw-800 mb-3 ls-1"
-                style="color: #00f2ff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);">Deploy the Future of Medicine</h2>
-            <p class="lead mb-5 mx-auto" style="max-width: 650px; color: #8892b0;">
-                Start analyzing your blood smear samples with India's most advanced high-precision AI diagnostic
-                ecosystem today.
+            <h1 id="hero-text" class="text-5xl md:text-7xl font-bold mb-6 tracking-tight animate-fadeInUp"
+                style="color: var(--text-main); transition-delay: 0.1s;">
+                <!-- Typewriter will fill this -->
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 animate-fadeInUp"
+                style="color: var(--text-muted); transition-delay: 0.2s;">
+                Turn your raw data into actionable insights instantly using the power of Generative AI.
             </p>
-
-            <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
-                <a href="{{ url_for('detection') }}"
-                    class="btn btn-lg px-5 py-3 fw-bold rounded-pill shadow-xl hover-up"
-                    style="background: #00f2ff; color: #001219; border: none; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);">
-                    <i class="fas fa-bolt me-2"></i> Launch AI Screening
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fadeInUp"
+                style="transition-delay: 0.3s;">
+                <a href="{{ url_for('analyze') }}" class="btn btn-primary px-10 py-4 text-lg">
+                    <i class="fas fa-rocket mr-2"></i>Analyze Now
                 </a>
-                <a href="{{ url_for('icmr_registration') }}" class="btn btn-outline-info btn-lg px-5 py-3 rounded-pill"
-                    style="border-width: 2px; color: #00f2ff !important;">
-                    <i class="fas fa-shield-check me-2"></i> Compliance Core
+                <a href="{{ url_for('help') }}" class="btn btn-secondary px-10 py-4 text-lg">
+                    <i class="fas fa-book-open mr-2"></i>Documentation
                 </a>
             </div>
+        </div>
+    </div>
 
-            <div class="d-flex justify-content-center flex-wrap gap-4">
-                <div class="px-4 py-2 rounded-pill d-flex align-items-center gap-2"
-                    style="background: rgba(255, 193, 7, 0.1); border: 1px solid #ffc107;">
-                    <i class="fas fa-fingerprint text-warning"></i>
-                    <span class="small fw-800 text-warning ls-1">256-BIT ENCRYPTION</span>
-                </div>
-                <div class="px-4 py-2 rounded-pill d-flex align-items-center gap-2"
-                    style="background: rgba(0, 255, 128, 0.1); border: 1px solid #00ff80;">
-                    <i class="fas fa-user-lock" style="color: #00ff80;"></i>
-                    <span class="small fw-800 ls-1" style="color: #00ff80;">GDPR/NDHM READY</span>
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="stats-card">
+            <div class="text-4xl font-bold mb-2">{{ "{:,}".format(total_analyzed) }}+</div>
+            <div class="opacity-80">Datasets Analyzed</div>
+        </div>
+        <div class="stats-card" style="background: linear-gradient(135deg, #a855f7, #ec4899);">
+            <div class="text-4xl font-bold mb-2">99.9%</div>
+            <div class="opacity-80">Accuracy Rate</div>
+        </div>
+        <div class="stats-card" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+            <div class="text-4xl font-bold mb-2">&lt; 5s</div>
+            <div class="opacity-80">Processing Time</div>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+        <div class="feature-card hover-lift">
+            <i class="fas fa-brain feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--text-main)">Smart Analytics</h3>
+            <p style="color: var(--text-muted)">Simply ask questions in natural language and get deep statistical
+                insights automatically.</p>
+        </div>
+        <div class="feature-card hover-lift">
+            <i class="fas fa-code feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--text-main)">Code Generation</h3>
+            <p style="color: var(--text-muted)">Get ready-to-use Python code generated specifically for your unique
+                dataset queries.</p>
+        </div>
+        <div class="feature-card hover-lift">
+            <i class="fas fa-chart-pie feature-icon"></i>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--text-main)">Dynamic Dashboard</h3>
+            <p style="color: var(--text-muted)">Visualize your data quality, metrics, and history in a beautiful,
+                responsive dashboard.</p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div
+        class="card bg-gradient-to-br from-indigo-900 to-slate-900 text-white border-0 overflow-hidden relative p-12 text-center md:text-left">
+        <div class="absolute top-0 right-0 w-1/3 h-full opacity-20 pointer-events-none">
+            <i class="fas fa-database text-[200px] -rotate-12 translate-x-20 translate-y-20"></i>
+        </div>
+        <div class="relative z-10 grid md:grid-cols-2 items-center gap-8">
+            <div>
+                <h2 class="text-3xl font-bold mb-4">Ready to unlock your data's potential?</h2>
+                <p class="text-indigo-200 text-lg mb-8">Join hundreds of data analysts who are saving hours every week
+                    with AI-driven insights.</p>
+                <a href="{{ url_for('analyze') }}"
+                    class="btn bg-white text-indigo-600 hover:bg-indigo-50 px-8 py-3 rounded-full font-bold">
+                    Start Your First Analysis <i
+                        class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-2"></i>
+                </a>
+            </div>
+            <div class="hidden md:block">
+                <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 backdrop-blur-md">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-2 h-2 rounded-full bg-red-400"></div>
+                        <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
+                        <div class="w-2 h-2 rounded-full bg-green-400"></div>
+                    </div>
+                    <code class="text-indigo-300 text-sm">
+                        <span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd<br>
+                        df = pd.read_csv(<span class="text-green-300">'sales_data.csv'</span>)<br>
+                        result = df.groupby(<span class="text-green-300">'region'</span>)[<span class="text-green-300">'revenue'</span>].mean()<br>
+                        print(<span class="text-green-300">"Analysis Complete ✅"</span>)
+                    </code>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const heroTitle = document.getElementById('hero-text');
+        if (heroTitle && typeof typeWriter === 'function') {
+            typeWriter(heroTitle, 'AI-Powered Data Analysis Made Simple');
+        }
+    });
+</script>
 {% endblock %}

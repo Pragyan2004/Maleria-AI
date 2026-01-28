@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Analyze Data{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold" style="color: var(--text-main);">Analyze Your Data</h1>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Input Section -->
+        <div class="space-y-6">
+            <div class="card">
+                <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">1. Upload Dataset</h2>
+                <form id="upload-form" onsubmit="return submitAnalysis(this)">
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium" style="color: var(--text-muted);">Select File
+                            (CSV/Excel)</label>
+                        <div class="border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 relative group"
+                            id="drop-zone"
+                            style="border-color: var(--border-color); background-color: rgba(0,0,0,0.02);">
+
+                            <input type="file" id="file-upload" name="file" accept=".csv,.xlsx,.xls" class="hidden"
+                                required>
+
+                            <label for="file-upload" class="cursor-pointer block">
+                                <i class="fas fa-cloud-upload-alt text-5xl mb-4 transition-transform group-hover:scale-110"
+                                    style="color: var(--secondary-color);"></i>
+                                <p class="font-medium text-lg mb-1" style="color: var(--text-main);">Click to upload or
+                                    drag and drop</p>
+                                <p class="text-sm" style="color: var(--text-muted);">CSV, Excel files supported (Max
+                                    50MB)</p>
+                            </label>
+
+                            <div id="file-name" class="mt-4 font-medium" style="color: var(--primary-color);"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium" style="color: var(--text-muted);">Your Question</label>
+                        <div class="relative">
+                            <textarea name="query" rows="4"
+                                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-shadow"
+                                style="background-color: var(--background-bg); border-color: var(--border-color); color: var(--text-main); --tw-ring-color: var(--primary-color);"
+                                placeholder="e.g., How many patients have diabetes? Show me the average age by gender..."
+                                id="query-input"></textarea>
+                            <i class="fas fa-keyboard absolute right-3 bottom-3 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium" style="color: var(--text-muted);">Quick Prompts</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="insertSampleQuery('Show summary statistics')"
+                                class="px-3 py-1.5 rounded-full text-sm transition-colors border moving-border"
+                                style="background-color: var(--background-bg); color: var(--text-muted); border-color: var(--border-color);">
+                                <i class="fas fa-chart-pie mr-1"></i> Summary
+                            </button>
+                            <button type="button" onclick="insertSampleQuery('Find missing values')"
+                                class="px-3 py-1.5 rounded-full text-sm transition-colors border"
+                                style="background-color: var(--background-bg); color: var(--text-muted); border-color: var(--border-color);">
+                                <i class="fas fa-search mr-1"></i> Missing Values
+                            </button>
+                            <button type="button" onclick="insertSampleQuery('Show correlation matrix')"
+                                class="px-3 py-1.5 rounded-full text-sm transition-colors border"
+                                style="background-color: var(--background-bg); color: var(--text-muted); border-color: var(--border-color);">
+                                <i class="fas fa-project-diagram mr-1"></i> Correlations
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-full relative h-12 text-lg overflow-hidden group"
+                        id="analyze-btn">
+                        <span class="relative z-10 flex items-center justify-center">
+                            <i class="fas fa-magic mr-2 group-hover:rotate-12 transition-transform"></i> Analyze Data
+                        </span>
+                        <div id="loading-spinner"
+                            class="hidden absolute inset-0 flex items-center justify-center bg-inherit z-20">
+                            <i class="fas fa-circle-notch fa-spin text-xl"></i>
+                        </div>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="card">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold" style="color: var(--primary-color);">Data Preview</h2>
+                    <span class="text-xs font-mono px-2 py-1 rounded bg-opacity-10"
+                        style="background-color: var(--secondary-color); color: var(--secondary-color);">TOP 10
+                        ROWS</span>
+                </div>
+                <div id="data-preview" class="overflow-x-auto max-h-96 rounded-lg border custom-scrollbar"
+                    style="border-color: var(--border-color);">
+                    <div class="text-center py-12 opacity-50">
+                        <i class="fas fa-table text-5xl mb-3 text-gray-400"></i>
+                        <p>Upload a file to preview data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="space-y-6">
+            <!-- Generated Code -->
+            <div class="card relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <i class="fas fa-code text-6xl"></i>
+                </div>
+                <div class="flex justify-between items-center mb-4 relative z-10">
+                    <h2 class="text-2xl font-bold" style="color: var(--primary-color);">Generated Logic</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="copyToClipboard(document.getElementById('code-content').textContent)"
+                            class="btn btn-secondary text-sm py-1 px-3">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <pre class="line-numbers"
+                        style="margin: 0; max-height: 300px;"><code id="code-content" class="language-python"># Python logic will appear here...</code></pre>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="card min-h-[400px]">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold" style="color: var(--primary-color);">Analysis Results</h2>
+                    <button onclick="exportResults()" class="btn btn-secondary text-sm">
+                        <i class="fas fa-download mr-2"></i>Export
+                    </button>
+                </div>
+                <div id="result-container" class="prose max-w-none">
+                    <div class="flex flex-col items-center justify-center py-12 text-center opacity-50"
+                        style="min-height: 200px;">
+                        <i class="fas fa-microscope text-6xl mb-4 text-gray-300"></i>
+                        <p class="text-lg">Results will render here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function insertSampleQuery(query) {
+        document.getElementById('query-input').value = query;
+    }
+
+    function submitAnalysis(form) {
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const spinner = document.getElementById('loading-spinner');
+
+        analyzeBtn.disabled = true;
+        spinner.classList.remove('hidden');
+
+        const formData = new FormData(form);
+
+        fetch('/analyze', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showNotification(data.error, 'error');
+                } else {
+                    // Render Result
+                    document.getElementById('result-container').innerHTML = data.result;
+
+                    // Render Code
+                    const codeEl = document.getElementById('code-content');
+                    if (codeEl) {
+                        codeEl.textContent = data.code;
+                        if (typeof Prism !== 'undefined') {
+                            Prism.highlightElement(codeEl);
+                        }
+                    }
+
+                    // Render Preview
+                    document.getElementById('data-preview').innerHTML = data.preview;
+
+                    showNotification('Analysis completed successfully!', 'success');
+                }
+            })
+            .catch(error => {
+                showNotification('An error occurred: ' + error, 'error');
+            })
+            .finally(() => {
+                analyzeBtn.disabled = false;
+                spinner.classList.add('hidden');
+            });
+
+        return false;
+    }
+
+    // Drag & Drop Logic
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-upload');
+
+        if (!dropZone || !fileInput) return;
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+            dropZone.style.borderColor = 'var(--primary-color)';
+            dropZone.style.transform = 'scale(1.02)';
+        }
+
+        function unhighlight() {
+            dropZone.style.backgroundColor = 'rgba(0,0,0,0.02)';
+            dropZone.style.borderColor = 'var(--border-color)';
+            dropZone.style.transform = 'scale(1)';
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            if (files.length > 0) {
+                document.getElementById('file-name').textContent = files[0].name;
+                showNotification('File selected: ' + files[0].name, 'success');
+            }
+        }
+
+        fileInput.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                document.getElementById('file-name').textContent = this.files[0].name;
+            }
+        });
+    });
+
+    function exportResults() {
+        const resultHTML = document.getElementById('result-container').innerHTML;
+        if (!resultHTML || resultHTML.includes('Results will render here')) {
+            showNotification('No results to export!', 'error');
+            return;
+        }
+
+        const blob = new Blob([resultHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'analysis_results.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showNotification('Results exported as HTML', 'success');
+    }
+</script>
+{% endblock %}

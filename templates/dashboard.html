@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold" style="color: var(--text-main)">Analytics Dashboard</h1>
+        <div class="flex space-x-4">
+            <button class="btn btn-secondary">
+                <i class="fas fa-download mr-2"></i>Export
+            </button>
+            <button class="btn btn-primary" onclick="refreshDashboard()">
+                <i class="fas fa-sync-alt mr-2"></i>Refresh
+            </button>
+        </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary-color)">Recent Analyses</h2>
+            <div id="recent-analyses" class="space-y-4">
+                <div class="flex items-center justify-center py-8">
+                    <p style="color: var(--text-muted)">No recent analyses found</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary-color)">Data Quality Overview</h2>
+            <div id="quality-metrics" class="space-y-4">
+                {% if stats and stats.completeness is defined %}
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-medium" style="color: var(--text-main)">Data Completeness</span>
+                            <span class="font-bold text-green-500">{{ stats.completeness }}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-green-500" style="width: {{ stats.completeness }}%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-medium" style="color: var(--text-main)">Memory Usage</span>
+                            <span class="font-bold text-blue-500">{{ stats.memory }}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-blue-500" style="width: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="flex items-center justify-center py-8">
+                    <p style="color: var(--text-muted)">Upload data to see quality metrics</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary-color)">Quick Actions</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="{{ url_for('analyze') }}"
+                    class="feature-card hover-lift text-center p-6 flex flex-col items-center justify-center hover:no-underline">
+                    <div
+                        class="w-12 h-12 rounded-full flex items-center justify-center mb-3 bg-indigo-100 dark:bg-indigo-900">
+                        <i class="fas fa-rocket text-xl text-indigo-600 dark:text-indigo-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-1" style="color: var(--text-main)">New Analysis</h3>
+                    <p class="text-xs" style="color: var(--text-muted)">Start fresh</p>
+                </a>
+                <a href="{{ url_for('history') }}"
+                    class="feature-card hover-lift text-center p-6 flex flex-col items-center justify-center hover:no-underline">
+                    <div
+                        class="w-12 h-12 rounded-full flex items-center justify-center mb-3 bg-green-100 dark:bg-green-900">
+                        <i class="fas fa-history text-xl text-green-600 dark:text-green-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-1" style="color: var(--text-main)">View History</h3>
+                    <p class="text-xs" style="color: var(--text-muted)">Past queries</p>
+                </a>
+                <button onclick="clearData()"
+                    class="feature-card hover-lift text-center p-6 flex flex-col items-center justify-center w-full hover:no-underline">
+                    <div
+                        class="w-12 h-12 rounded-full flex items-center justify-center mb-3 bg-red-100 dark:bg-red-900">
+                        <i class="fas fa-trash text-xl text-red-600 dark:text-red-300"></i>
+                    </div>
+                    <h3 class="font-bold mb-1" style="color: var(--text-main)">Clear Data</h3>
+                    <p class="text-xs" style="color: var(--text-muted)">Remove dataset</p>
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary-color)">Performance Metrics</h2>
+            <div class="space-y-8" id="performance-metrics">
+                {% set perf = stats.performance if stats and stats.performance else {'success_rate': 0, 'avg_time': 0,
+                'total': 0} %}
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium" style="color: var(--text-main)">Query Success Rate</span>
+                        <span class="font-bold text-green-500" id="success-rate-val">{{ perf.success_rate }}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill bg-green-500" id="success-rate-bar"
+                            style="width: {{ perf.success_rate }}%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium" style="color: var(--text-main)">Avg Response Time</span>
+                        <span class="font-bold text-blue-500" id="avg-time-val">{{ perf.avg_time }}s</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill bg-blue-500" id="avg-time-bar"
+                            style="width: {{ (perf.avg_time / 5 * 100) if perf.avg_time < 5 else 100 }}%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-medium" style="color: var(--text-main)">Total Analyses</span>
+                        <span class="font-bold text-purple-500" id="total-analyses-val">{{ perf.total }}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill bg-purple-500" id="total-analyses-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution Chart -->
+        <div class="card lg:col-span-2">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--primary-color)">Data Type Distribution</h2>
+            <div class="h-[300px] relative">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function refreshDashboard() {
+        // Fetch Data Stats
+        fetch('/api/data_stats')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.error) {
+
+                    // Update Quality Metrics dynamically
+                    const container = document.getElementById('quality-metrics');
+                    container.innerHTML = `
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="font-medium" style="color: var(--text-main)">Data Completeness</span>
+                                    <span class="font-bold text-green-500">${data.completeness}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-green-500" data-progress="${data.completeness}"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="font-medium" style="color: var(--text-main)">Memory Usage</span>
+                                    <span class="font-bold text-blue-500">${data.memory}</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-blue-500" data-progress="95"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="text-sm font-bold mb-2" style="color: var(--text-main)">Column Null Counts</h4>
+                                <div class="max-h-32 overflow-y-auto custom-scrollbar space-y-2 pr-2">
+                                    ${Object.entries(data.null_counts).map(([col, count]) => `
+                                        <div class="flex justify-between text-xs p-2 rounded bg-black/5">
+                                            <span style="color: var(--text-muted)">${col}</span>
+                                            <span class="font-bold ${count > 0 ? 'text-red-500' : 'text-green-500'}">${count} nulls</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Update Performance Metrics
+                    if (data.performance) {
+                        const perf = data.performance;
+                        document.getElementById('success-rate-val').textContent = perf.success_rate + '%';
+                        const successBar = document.getElementById('success-rate-bar');
+                        successBar.setAttribute('data-progress', perf.success_rate);
+                        successBar.style.width = perf.success_rate + '%';
+
+                        document.getElementById('avg-time-val').textContent = perf.avg_time + 's';
+                        const timeBar = document.getElementById('avg-time-bar');
+                        // Scale 0-5s to 0-100%
+                        const timeProgress = Math.min(100, (perf.avg_time / 5) * 100);
+                        timeBar.setAttribute('data-progress', timeProgress);
+                        timeBar.style.width = timeProgress + '%';
+
+                        document.getElementById('total-analyses-val').textContent = perf.total;
+                    }
+
+                    // Render Distribution Chart
+                    renderDistributionChart(data.numeric_cols, data.categorical_cols);
+
+                    setTimeout(() => {
+                        container.querySelectorAll('.progress-fill').forEach(el => {
+                            const progress = el.getAttribute('data-progress');
+                            if (progress) el.style.width = progress + '%';
+                        });
+                    }, 100);
+                } else {
+                    document.getElementById('quality-metrics').innerHTML = `
+                        <div class="flex items-center justify-center py-8">
+                            <p style="color: var(--text-muted)">Upload data to see quality metrics</p>
+                        </div>`;
+                }
+            });
+
+        // Fetch Recent History
+        fetch('/api/history_recent')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('recent-analyses');
+                if (data && data.length > 0) {
+                    container.innerHTML = data.map(item => `
+                       <div class="p-4 rounded-xl border hover-lift transition-all" style="border-color: var(--border-color); background: rgba(255,255,255,0.05);">
+                           <div class="flex justify-between items-start mb-2">
+                               <span class="text-xs px-2 py-1 rounded bg-indigo-500/20 text-indigo-400 font-bold uppercase tracking-tighter">AI Analysis</span>
+                               <span class="text-xs opacity-50" style="color: var(--text-muted)">${new Date(item.timestamp).toLocaleDateString()}</span>
+                           </div>
+                           <p class="font-bold text-base line-clamp-2" style="color: var(--text-main)">${item.query}</p>
+                           ${item.response_time ? `<div class="mt-2 text-xs opacity-60">🕒 ${item.response_time}s response</div>` : ''}
+                       </div>
+                   `).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="flex items-center justify-center py-8">
+                            <p style="color: var(--text-muted)">No recent analyses found</p>
+                        </div>`;
+                }
+            });
+    }
+
+    let distributionChart = null;
+    function renderDistributionChart(numeric, categorical) {
+        const ctx = document.getElementById('distributionChart').getContext('2d');
+        if (distributionChart) distributionChart.destroy();
+
+        distributionChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Numeric Columns', 'Categorical Columns'],
+                datasets: [{
+                    data: [numeric, categorical],
+                    backgroundColor: ['#6366f1', '#06b6d4'],
+                    borderColor: 'transparent',
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#e2e8f0',
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        if (!obj) return;
+        if (start === end) {
+            obj.innerHTML = end.toLocaleString();
+            return;
+        }
+        const range = end - start;
+        let current = start;
+        const increment = end > start ? 1 : -1;
+        const stepTime = Math.abs(Math.floor(duration / range));
+        const timer = setInterval(function () {
+            current += increment;
+            obj.innerHTML = current.toLocaleString();
+            if (current == end) {
+                clearInterval(timer);
+            }
+        }, stepTime > 0 ? stepTime : 10);
+    }
+
+    function clearData() {
+        if (confirm('Are you sure you want to clear the current dataset?')) {
+            fetch('/api/clear_data', { method: 'POST' })
+                .then(() => {
+                    if (typeof showNotification === 'function') showNotification('Data cleared successfully', 'success');
+                    refreshDashboard();
+                });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', refreshDashboard);
+</script>
+{% endblock %}

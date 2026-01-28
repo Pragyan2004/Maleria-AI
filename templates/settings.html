@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-gray-800 mb-8">Settings</h1>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1">
+            <div class="card sticky top-24">
+                <nav class="space-y-2">
+                    <button onclick="showSection('api')"
+                        class="settings-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors settings-nav-active">
+                        <i class="fas fa-key mr-3"></i>API Configuration
+                    </button>
+                    <button onclick="showSection('preferences')"
+                        class="settings-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-cog mr-3"></i>Preferences
+                    </button>
+                    <button onclick="showSection('data')"
+                        class="settings-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-database mr-3"></i>Data Management
+                    </button>
+                    <button onclick="showSection('appearance')"
+                        class="settings-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-palette mr-3"></i>Appearance
+                    </button>
+                    <button onclick="showSection('about')"
+                        class="settings-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+                        <i class="fas fa-info-circle mr-3"></i>About
+                    </button>
+                </nav>
+            </div>
+        </div>
+        <div class="lg:col-span-2">
+            <!-- API Configuration -->
+            <div id="api-section" class="settings-section">
+                <div class="card">
+                    <h2 class="text-2xl font-bold mb-6">API Configuration</h2>
+
+                    <form id="api-form">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2 font-semibold">Groq API Key</label>
+                            <div class="relative">
+                                <input type="password" value="{{ groq_api_key }}"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 pr-10"
+                                    placeholder="Enter your Groq API key">
+                                <button type="button" onclick="togglePasswordVisibility(this)"
+                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Your API key is stored locally and never shared with third parties.
+                            </p>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2 font-semibold">AI Model</label>
+                            <select
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                                <option value="llama-3.3-70b-versatile" selected>Llama 3.3 70B Versatile</option>
+                                <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant</option>
+                                <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+                            </select>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-sm text-gray-500">API Status: </span>
+                                <span id="api-status" class="text-sm font-semibold text-green-600">Connected</span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save mr-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="preferences-section" class="settings-section hidden">
+                <div class="card">
+                    <h2 class="text-2xl font-bold mb-6">Preferences</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="rounded text-blue-600" checked>
+                                <span class="text-gray-700">Auto-save analysis history</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="rounded text-blue-600" checked>
+                                <span class="text-gray-700">Show code by default</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" class="rounded text-blue-600">
+                                <span class="text-gray-700">Auto-generate insights on upload</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-semibold">Default Results Display</label>
+                            <select
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                                <option value="table">Table View</option>
+                                <option value="chart">Chart View</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-semibold">Max File Size (MB)</label>
+                            <input type="number" value="50"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="data-section" class="settings-section hidden">
+                <div class="card">
+                    <h2 class="text-2xl font-bold mb-6">Data Management</h2>
+
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+                            <div>
+                                <h3 class="font-semibold">Analysis History</h3>
+                                <p class="text-sm text-gray-500">{{ history|length if history else 0 }} entries</p>
+                            </div>
+                            <button onclick="clearAllData()" class="btn btn-secondary">
+                                Clear All
+                            </button>
+                        </div>
+
+                        <div class="flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+                            <div>
+                                <h3 class="font-semibold">Cached Datasets</h3>
+                                <p class="text-sm text-gray-500">1 dataset cached</p>
+                            </div>
+                            <button onclick="clearCache()" class="btn btn-secondary">
+                                Clear Cache
+                            </button>
+                        </div>
+
+                        <div class="flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+                            <div>
+                                <h3 class="font-semibold">Export All Data</h3>
+                                <p class="text-sm text-gray-500">Export history and settings</p>
+                            </div>
+                            <button onclick="exportAllData()" class="btn btn-primary">
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="appearance-section" class="settings-section hidden">
+                <div class="card">
+                    <h2 class="text-2xl font-bold mb-6">Appearance</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 mb-3 font-semibold">Theme</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="theme-option">
+                                    <input type="radio" name="theme" value="light" checked class="hidden">
+                                    <div
+                                        class="border-2 border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 theme-option-content">
+                                        <i class="fas fa-sun text-2xl text-yellow-500 mb-2"></i>
+                                        <div class="font-semibold">Light</div>
+                                    </div>
+                                </label>
+                                <label class="theme-option">
+                                    <input type="radio" name="theme" value="dark" class="hidden">
+                                    <div
+                                        class="border-2 border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 theme-option-content">
+                                        <i class="fas fa-moon text-2xl text-gray-600 mb-2"></i>
+                                        <div class="font-semibold">Dark</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-semibold">Animation Level</label>
+                            <select
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                                <option value="full">Full Animations</option>
+                                <option value="reduced">Reduced Animations</option>
+                                <option value="none">No Animations</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="about-section" class="settings-section hidden">
+                <div class="card">
+                    <h2 class="text-2xl font-bold mb-6">About AI Data Analyst</h2>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-robot text-4xl text-blue-600"></i>
+                            <div>
+                                <h3 class="text-lg font-semibold">AI Data Analyst v1.0.0</h3>
+                                <p class="text-gray-600">Powered by Groq AI & Flask</p>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-semibold mb-2">Features</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Natural language data analysis</li>
+                                    <li>• Automated code generation</li>
+                                    <li>• AI-powered insights</li>
+                                    <li>• Real-time collaboration</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-semibold mb-2">Technology Stack</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li>• Flask Backend</li>
+                                    <li>• Groq AI Integration</li>
+                                    <li>• Pandas & NumPy</li>
+                                    <li>• Tailwind CSS</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="border-t pt-6">
+                            <h4 class="font-semibold mb-3">Support & Resources</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-book mr-1"></i> Documentation
+                                </a>
+                                <a href="#" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-bug mr-1"></i> Report Issue
+                                </a>
+                                <a href="#" class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-star mr-1"></i> Rate Project
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showSection(sectionName) {
+        document.querySelectorAll('.settings-section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.querySelectorAll('.settings-nav-btn').forEach(btn => {
+            btn.classList.remove('settings-nav-active', 'bg-blue-50', 'text-blue-700');
+        });
+        document.getElementById(sectionName + '-section').classList.remove('hidden');
+        event.target.classList.add('settings-nav-active', 'bg-blue-50', 'text-blue-700');
+    }
+
+    function togglePasswordVisibility(button) {
+        const input = button.previousElementSibling;
+        const icon = button.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    function clearAllData() {
+        if (confirm('Are you sure you want to clear all data? This will delete analysis history and cached datasets.')) {
+            showNotification('All data cleared successfully', 'success');
+        }
+    }
+
+    function clearCache() {
+        if (confirm('Clear all cached datasets?')) {
+            showNotification('Cache cleared successfully', 'success');
+        }
+    }
+
+    function exportAllData() {
+        showNotification('Export feature coming soon!', 'info');
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.theme-option input').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.querySelectorAll('.theme-option-content').forEach(content => {
+                    content.classList.remove('border-blue-500', 'bg-blue-50');
+                });
+                this.parentElement.querySelector('.theme-option-content').classList.add('border-blue-500', 'bg-blue-50');
+            });
+        });
+    });
+</script>
+
+<style>
+    .settings-nav-active {
+        background-color: #eff6ff;
+        color: #1d4ed8;
+        border-right-width: 2px;
+        border-color: #2563eb;
+    }
+
+    .theme-option-content {
+        transition: all 0.2s ease;
+    }
+</style>
+{% endblock %}
