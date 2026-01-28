@@ -1,4 +1,4 @@
-Flask
+Flask 
 Flask-CORS
 Flask-SQLAlchemy
 SQLAlchemy
@@ -19,4 +19,5 @@ opencv-python-headless
 matplotlib
 seaborn
 plotly
-torch
+torch  
+
